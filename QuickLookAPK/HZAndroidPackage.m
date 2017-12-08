@@ -24,9 +24,11 @@ NSDictionary *permissionsMap( )
                               @"ACCESS_WIFI_STATE":@"Allows applications to access information about Wi-Fi networks.",
                               @"ACCOUNT_MANAGER":@"Allows applications to call into AccountAuthenticators.",
                               @"ADD_VOICEMAIL":@"Allows an application to add voicemails into the system.",
+                              @"ANSWER_PHONE_CALLS":@"Allows the app to answer an incoming phone call.",
                               @"BATTERY_STATS":@"Allows an application to collect battery statistics.",
                               @"BIND_ACCESSIBILITY_SERVICE":@"Must be required by an AccessibilityService, to ensure that only the system can bind to it.",
                               @"BIND_APPWIDGET":@"Allows an application to tell the AppWidget service which application can access AppWidget's data.",
+                              @"BIND_AUTOFILL_SERVICE":@"Must be required by a AutofillService, to ensure that only the system can bind to it.",
                               @"BIND_CARRIER_SERVICES":@"The system process that is allowed to bind to services in carrier apps will have this permission.",
                               @"BIND_CARRIER_MESSAGING_SERVICE":@"The system process that is allowed to bind to services in carrier apps will have this permission.",
                               @"BIND_CHOOSER_TARGET_SERVICE":@"Must be required by a ChooserTargetService, to ensure that only the system can bind to it.",
@@ -45,6 +47,7 @@ NSDictionary *permissionsMap( )
                               @"BIND_TELECOM_CONNECTION_SERVICE":@"Must be required by a ConnectionService, to ensure that only the system can bind to it.",
                               @"BIND_TEXT_SERVICE":@"Must be required by a TextService (e.g.",
                               @"BIND_TV_INPUT":@"Must be required by a TvInputService to ensure that only the system can bind to it.",
+                              @"BIND_VISUAL_VOICEMAIL_SERVICE":@"Must be required by a link VisualVoicemailService to ensure that only the system can bind to it.",
                               @"BIND_VOICE_INTERACTION":@"Must be required by a VoiceInteractionService, to ensure that only the system can bind to it.",
                               @"BIND_VPN_SERVICE":@"Must be required by a VpnService, to ensure that only the system can bind to it.",
                               @"BIND_VR_LISTENER_SERVICE":@"Must be required by an VrListenerService, to ensure that only the system can bind to it.",
@@ -85,10 +88,12 @@ NSDictionary *permissionsMap( )
                               @"INSTALL_LOCATION_PROVIDER":@"Allows an application to install a location provider into the Location Manager.",
                               @"INSTALL_PACKAGES":@"Allows an application to install packages.",
                               @"INSTALL_SHORTCUT":@"Allows an application to install a shortcut in Launcher.",
+                              @"INSTANT_APP_FOREGROUND_SERVICE":@"Allows an instant app to create foreground services.",
                               @"INTERNET":@"Allows applications to open network sockets.",
                               @"KILL_BACKGROUND_PROCESSES":@"Allows an application to call killBackgroundProcesses(String).",
                               @"LOCATION_HARDWARE":@"Allows an application to use location features in hardware, such as the geofencing api.",
                               @"MANAGE_DOCUMENTS":@"Allows an application to manage access to documents, usually as part of a document picker.",
+                              @"MANAGE_OWN_CALLS":@"Allows a calling application which manages it own calls through the self-managed ConnectionService APIs.",
                               @"MASTER_CLEAR":@"Not for use by third-party applications.",
                               @"MEDIA_CONTENT_CONTROL":@"Allows an application to know what content is playing and control its playback.",
                               @"MODIFY_AUDIO_SETTINGS":@"Allows an application to modify global audio settings.",
@@ -106,6 +111,7 @@ NSDictionary *permissionsMap( )
                               @"READ_FRAME_BUFFER":@"Allows an application to take screen shots and more generally get access to the frame buffer data.",
                               @"READ_INPUT_STATE":@"This constant was deprecated in API level 16. The API that used this permission has been removed.",
                               @"READ_LOGS":@"Allows an application to read the low-level system log files.",
+                              @"READ_PHONE_NUMBERS":@"Allows read access to the device's phone number(s).",
                               @"READ_PHONE_STATE":@"Allows read only access to phone state.",
                               @"READ_SMS":@"Allows an application to read SMS messages.",
                               @"READ_SYNC_SETTINGS":@"Allows applications to read the sync settings.",
@@ -118,11 +124,14 @@ NSDictionary *permissionsMap( )
                               @"RECEIVE_WAP_PUSH":@"Allows an application to monitor incoming WAP push messages.",
                               @"RECORD_AUDIO":@"Allows an application to record audio.",
                               @"REORDER_TASKS":@"Allows an application to change the Z-order of tasks.",
+                              @"REQUEST_COMPANION_RUN_IN_BACKGROUND":@"Allows a companion app to run in the background.",
+                              @"REQUEST_COMPANION_USE_DATA_IN_BACKGROUND":@"Allows a companion app to use data in the background.",
+                              @"REQUEST_DELETE_PACKAGES":@"Allows an application to request deleting packages.",
+                              @"REQUEST_IGNORE_BATTERY_OPTIMIZATIONS":@"Permission an application must hold in order to use ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS.",
                               @"REQUEST_INSTALL_PACKAGES":@"Allows an application to request installing packages.",
                               @"RESTART_PACKAGES":@"This constant was deprecated in API level 8. The restartPackage(String) API is no longer supported.",
                               @"SEND_RESPOND_VIA_MESSAGE":@"Allows an application (Phone) to send a request to other applications to handle the respond-via-message action during incoming calls.",
                               @"SEND_SMS":@"Allows an application to send SMS messages.",
-                              @"SET_ACTIVITY_WATCHER":@"Allows an application to watch and control how activities are started globally in the system.",
                               @"SET_ALARM":@"Allows an application to broadcast an Intent to set an alarm for the user.",
                               @"SET_ALWAYS_FINISH":@"Allows an application to control whether activities are immediately finished when put in the background.",
                               @"SET_ANIMATION_SCALE":@"Modify the global animation scaling factor.",
@@ -248,7 +257,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
 
 - (void)load
 {
-    NSString *aaptPath = [[[NSBundle bundleWithIdentifier:@"com.hezicohen.qlapk"] resourcePath] stringByAppendingPathComponent:@"aapt"];
+    NSString *aaptPath = @"/usr/local/bin/aapt";
 
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:[aaptPath stringByExpandingTildeInPath]];

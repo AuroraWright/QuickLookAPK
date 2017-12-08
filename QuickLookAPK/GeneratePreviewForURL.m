@@ -1,7 +1,6 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreServices/CoreServices.h>
 #import <QuickLook/QuickLook.h>
-#import <Cocoa/Cocoa.h>
 
 #import "HZAndroidPackage.h"
 
