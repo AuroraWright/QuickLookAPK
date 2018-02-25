@@ -200,7 +200,12 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
         [stringBuilder appendFormat:@"<img style='width: 100px; height: 100px; vertical-align: middle;' title='%@' src='data:image/png;base64,%@'>  ", package.label, iconBase64];
     }
 
-    [stringBuilder appendFormat:@"%@</h1>", package.label];
+    if(package.label != nil)
+    {
+        [stringBuilder appendFormat:@"%@", package.label];
+    }
+
+    [stringBuilder appendString:@"</h1>"];
     [stringBuilder appendFormat:@"<h3>Package name: %@</h3>", package.name];
     [stringBuilder appendFormat:@"<h3>Version: %@ (%@)</h3><h3>", package.versionName, package.versionCode];
     [stringBuilder appendFormat:@"SDK: %@", package.sdkVersion];
@@ -304,7 +309,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
          self.targetSdkVersion = [apkString substringWithRange:range];
      }];
 
-    regex = [NSRegularExpression regularExpressionWithPattern:@"application: label='(.+)' icon='.*'"
+    regex = [NSRegularExpression regularExpressionWithPattern:@"application-label:'(.+)'"
                                                       options:0
                                                         error:&error];
     [regex enumerateMatchesInString:apkString options:0 range:NSMakeRange(0, apkString.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop)
@@ -313,7 +318,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
         self.label = [apkString substringWithRange:range];
     }];
     
-    regex = [NSRegularExpression regularExpressionWithPattern:@"application-icon-[\\d]+:'(.+)'"
+    regex = [NSRegularExpression regularExpressionWithPattern:@"application-icon-[\\d]+:'(.+.png)'"
                                                       options:0
                                                         error:&error];
     NSArray *matches = [regex matchesInString:apkString options:0 range:NSMakeRange(0, apkString.length)];
