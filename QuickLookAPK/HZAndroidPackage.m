@@ -277,7 +277,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
                                                 encoding:NSUTF8StringEncoding];
 
     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='(.+)' platformBuildVersionName='.*'"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='([^']+)'.*"
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
 
@@ -290,23 +290,6 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
         range = [result rangeAtIndex:3];
         self.versionName = [apkString substringWithRange:range];
     }];
-
-    if(self.name == nil)
-    {
-        regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='(.+)'"
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-
-        [regex enumerateMatchesInString:apkString options:0 range:NSMakeRange(0, apkString.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop)
-        {
-            NSRange range = [result rangeAtIndex:1];
-            self.name = [apkString substringWithRange:range];
-            range = [result rangeAtIndex:2];
-            self.versionCode = [apkString substringWithRange:range];
-            range = [result rangeAtIndex:3];
-            self.versionName = [apkString substringWithRange:range];
-        }];
-    }
 
     regex = [NSRegularExpression regularExpressionWithPattern:@"sdkVersion:'(.+)'"
                                                       options:0
